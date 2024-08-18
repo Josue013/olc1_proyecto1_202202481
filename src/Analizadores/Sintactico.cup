@@ -1,0 +1,116 @@
+// Paquete e importaciones
+package Analizadores;
+import java_cup.runtime.*;
+import java.util.ArrayList;
+import Util.Conjunto;
+import Util.Evaluacion;
+import Util.Operacion;
+import Util.Utilidades;
+
+// Definición de la clase del parser
+class Parser;
+
+// area de codigo -> parser code
+parser code
+{:
+
+    public ArrayList<ArrayList> info;
+
+
+    public void syntax_error(Symbol s){
+        System.out.println("Error Sintactico en la linea " +
+            (s.left) + " y columna " + (s.right) +
+            ". No se esperaba el componente: " + (s.value) + ".");
+        
+        if (s.value != null){
+            Util.Utilidades.agregarError(s.value.toString(), "ERROR SINTACTICO", s.left, s.right);
+        }
+    }
+
+    public void unrecovered_syntax_error (Symbol s) throws java.lang.Exception{
+        System.out.println("Error Sintactico no recuperable en la linea" +
+            (s.left) + " y columna " + (s.right) +
+            ". No se esperaba el componente: " + (s.value) + ".");
+
+        if (s.value != null){
+            Util.Utilidades.agregarError(s.value.toString(), "ERROR SINTACTICO", s.left, s.right);
+        }
+    }
+
+:}
+
+// Terminales
+terminal String ID, INTERV, LISTA, LISTA_CONJ, LISTA_ELEMENTOS, CONJ, OPERA, EVALUAR, LLAVE_IZQ, LLAVE_DER, PAREN_IZQ, PAREN_DER, FLECHA, COMA, PUNTO_Y_COMA, DOS_PUNTOS, UNION, INTERSECCION, COMPLEMENTO, DIFERENCIA;
+
+// No terminales
+
+non terminal programa;
+non terminal ArrayList sentencias;
+non terminal sentencia;
+non terminal conjunto;
+non terminal operacion;
+non terminal evaluacion;
+non terminal lista;
+non terminal definicion;
+non terminal ArrayList operacionDef;
+non terminal operadoresyconjuntos;
+non terminal ArrayList operacionComplemento;
+non terminal ArrayList operadoresLista;
+non terminal operador;
+non terminal ArrayList listaComplemento;
+non terminal ArrayList conjuntos;
+
+// Producción inicial
+start with programa;
+
+// Producciones 
+
+programa ::= LLAVE_IZQ sentencias:a LLAVE_DER {: System.out.println("Programa válido." ); :};
+
+sentencias ::= sentencias:a sentencia:b     {:RESULT=a; RESULT.add(b);:}
+             | sentencia:a                  {:RESULT=new ArrayList(); RESULT.add(a);:}
+             ;
+
+sentencia ::= conjunto:c {: System.out.println("Sentencia Conjunto: "+c); RESULT = c; :}
+            | operacion:o  {: System.out.println("Sentencia Operacion: "+o); RESULT = o; :}
+            | evaluacion:e {: System.out.println("Sentencia Evaluacion: "+e); RESULT = e; :}
+            ;
+
+conjunto ::= CONJ DOS_PUNTOS ID:a FLECHA definicion:b PUNTO_Y_COMA {: RESULT = new Conjunto(a,b.toString()); Util.Utilidades.agregarConjunto(a,b.toString()); :} ; // CONj a=conjA b=0~4
+
+definicion ::= INTERV:a     {: RESULT = a; :}
+             | LISTA:a      {: RESULT = a; :}
+             ;
+
+operacion ::= OPERA DOS_PUNTOS ID:a FLECHA operadoresyconjuntos:b PUNTO_Y_COMA {: RESULT = new Operacion(a,b.toString()); Util.Utilidades.agregarOperacion(a,b.toString()); :} ;
+
+operadoresyconjuntos ::= operacionDef:a           {:RESULT = a;:}
+                        | operacionComplemento:b  {:RESULT = b;:}
+                        ;
+
+
+operacionDef ::= operadoresLista:a conjuntos:b {:RESULT=a; RESULT.add(b);:} ;  
+
+operadoresLista ::= operadoresLista:a operador:b    {:RESULT=a; RESULT.add(b);:}                           
+                  | operador:a                      {:RESULT=new ArrayList(); RESULT.add(a);:}
+                  ;
+
+
+
+operacionComplemento ::= listaComplemento:a LISTA_CONJ:b {:RESULT=a; RESULT.add(b);:} ; 
+
+listaComplemento ::= listaComplemento:a COMPLEMENTO:b {:RESULT=a; RESULT.add(b);:}  
+                   | COMPLEMENTO:a                       {:RESULT = new ArrayList(); RESULT.add(a);:}
+                   ;
+
+operador ::= UNION:u           {: RESULT = u; :}     
+             | INTERSECCION:i    {: RESULT = i; :}       
+             | DIFERENCIA:d      {: RESULT = d; :}     
+             ;
+
+conjuntos ::= conjuntos:a LISTA_CONJ:b      {:RESULT=a; RESULT.add(b);:}
+            | LISTA_CONJ:a                  {:RESULT=new ArrayList(); RESULT.add(a);:}
+            ;
+
+evaluacion ::= EVALUAR PAREN_IZQ LISTA_ELEMENTOS:a COMA ID:b PAREN_DER PUNTO_Y_COMA {: RESULT = new Evaluacion(b,a); Util.Utilidades.agregarEvaluacion(b,a); :}; // EVALUAR b=operacion1 a={1,2,3,4,5} 
+

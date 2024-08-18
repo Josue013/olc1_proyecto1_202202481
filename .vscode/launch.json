@@ -1,0 +1,28 @@
+{
+  // Use IntelliSense para saber los atributos posibles.
+  // Mantenga el puntero para ver las descripciones de los existentes atributos.
+  // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Current File",
+      "request": "launch",
+      "mainClass": "${file}"
+    },
+    {
+      "type": "java",
+      "name": "ConjAnalyzer",
+      "request": "launch",
+      "mainClass": "Analizadores.ConjAnalyzer",
+      "projectName": "OLC1_Proyecto1_202202481_598d1180"
+    },
+    {
+      "type": "java",
+      "name": "Interfaz",
+      "request": "launch",
+      "mainClass": "INTERFAZ.Interfaz",
+      "projectName": "OLC1_Proyecto1_202202481_598d1180"
+    }
+  ]
+}

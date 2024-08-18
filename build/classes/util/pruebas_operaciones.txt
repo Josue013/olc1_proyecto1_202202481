@@ -1,0 +1,109 @@
+public static void splitOperacion(Operacion operacion) {
+      String valor = (String) operacion.getValor(); // Obtener el valor de la operación
+      valor = valor.replaceAll("[\\[\\]\\s]", ""); // Remover corchetes y espacios innecesarios
+      String[] partes = valor.split(","); // Separar por comas
+  
+      Stack<ArrayList<String>> pila = new Stack<>();
+  
+      for (String parte : partes) {
+          switch (parte) {
+              case "U":
+              case "&":
+              case "-":
+                  // Operadores binarios requieren al menos dos operandos
+                  if (pila.size() < 2) {
+                      throw new IllegalArgumentException(
+                          "Notación mal formada: no hay suficientes operandos para el operador " + parte);
+                  }
+  
+                  ArrayList<String> conjunto2 = pila.pop();
+                  ArrayList<String> conjunto1 = pila.pop();
+                  ArrayList<String> resultado;
+  
+                  switch (parte) {
+                      case "U":
+                          resultado = union(conjunto1, conjunto2);
+                          break;
+                      case "&":
+                          resultado = interseccion(conjunto1, conjunto2);
+                          break;
+                      case "-":
+                          resultado = diferencia(conjunto1, conjunto2);
+                          break;
+                      default:
+                          throw new IllegalArgumentException("Operador desconocido: " + parte);
+                  }
+  
+                  pila.push(resultado);
+                  break;
+  
+              case "^":
+                  // Operador unario
+                  if (pila.isEmpty()) {
+                      throw new IllegalArgumentException(
+                          "Notación mal formada: no hay suficientes operandos para el operador " + parte);
+                  }
+                  ArrayList<String> conjunto = pila.pop();
+                  ArrayList<String> complementoResultado = complemento(conjunto.toArray(new String[0]));
+                  pila.push(complementoResultado);
+                  break;
+  
+              default:
+                  // Manejo de conjuntos
+                  if (parte.startsWith("{") && parte.endsWith("}")) {
+                      String conjuntoNombre = parte.replace("{", "").replace("}", "");
+                      Conjunto conjuntoEncontrado = obtenerConjuntoPorNombre(conjuntoNombre);
+  
+                      if (conjuntoEncontrado != null) {
+                          pila.push(new ArrayList<>(Arrays.asList((String[]) conjuntoEncontrado.getValor())));
+                      } else {
+                          throw new IllegalArgumentException("Conjunto no encontrado: " + conjuntoNombre);
+                      }
+                  } else {
+                      throw new IllegalArgumentException("Token inesperado: " + parte);
+                  }
+                  break;
+          }
+      }
+  
+      if (pila.size() != 1) {
+          throw new IllegalArgumentException("Notación mal formada: la pila no tiene exactamente un resultado final");
+      }
+  
+      ArrayList<String> elementosResultado = pila.pop();
+      operacion.setValor(elementosResultado.toArray(new String[0])); // Actualizar el valor de la operación
+  }
+
+    private static ArrayList<String> union(ArrayList<String> conjunto1, ArrayList<String> conjunto2) {
+      Set<String> resultado = new HashSet<>(conjunto1);
+      resultado.addAll(conjunto2);
+      return new ArrayList<>(resultado);
+    }
+
+    private static ArrayList<String> interseccion(ArrayList<String> conjunto1, ArrayList<String> conjunto2) {
+      Set<String> resultado = new HashSet<>(conjunto1);
+      resultado.retainAll(conjunto2);
+      return new ArrayList<>(resultado);
+    }
+
+    private static ArrayList<String> diferencia(ArrayList<String> conjunto1, ArrayList<String> conjunto2) {
+      Set<String> resultado = new HashSet<>(conjunto1);
+      resultado.removeAll(conjunto2);
+      return new ArrayList<>(resultado);
+    }
+
+    private static ArrayList<String> complemento(String[] elementos) {
+      // Conjunto universo de caracteres ASCII del rango (33-126) o (!-~)
+      Set<String> conjuntoUniverso = new HashSet<>();
+      for (int i = 33; i <= 126; i++) {
+        conjuntoUniverso.add(String.valueOf((char) i));
+      }
+
+      // Convertir el arreglo de elementos a un conjunto
+      Set<String> conjuntoElementos = new HashSet<>(Arrays.asList(elementos));
+
+      // Calcular el complemento
+      conjuntoUniverso.removeAll(conjuntoElementos);
+
+      return new ArrayList<>(conjuntoUniverso);
+    }

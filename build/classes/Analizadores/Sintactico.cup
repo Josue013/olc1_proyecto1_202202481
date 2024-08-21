@@ -59,6 +59,7 @@ non terminal ArrayList operadoresLista;
 non terminal operador;
 non terminal ArrayList listaComplemento;
 non terminal ArrayList conjuntos;
+non terminal ArrayList operacionComb;
 
 // Producción inicial
 start with programa;
@@ -89,13 +90,16 @@ operadoresyconjuntos ::= operacionDef:a           {:RESULT = a;:}
                         ;
 
 
-operacionDef ::= operadoresLista:a conjuntos:b {:RESULT=a; RESULT.add(b);:} ;  
+operacionDef ::= operacionComb:a conjuntos:b {:RESULT=a; RESULT.add(b);:} ;  
+
+operacionComb ::= operadoresLista:a listaComplemento:b {:RESULT=a; RESULT.addAll(b);:}
+                 | listaComplemento:a operadoresLista:b {:RESULT=a; RESULT.addAll(b);:}
+                 | operadoresLista:a                    {:RESULT=a;:}
+                 ;
 
 operadoresLista ::= operadoresLista:a operador:b    {:RESULT=a; RESULT.add(b);:}                           
                   | operador:a                      {:RESULT=new ArrayList(); RESULT.add(a);:}
                   ;
-
-
 
 operacionComplemento ::= listaComplemento:a LISTA_CONJ:b {:RESULT=a; RESULT.add(b);:} ; 
 

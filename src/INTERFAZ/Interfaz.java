@@ -374,17 +374,18 @@ public class Interfaz extends javax.swing.JFrame {
         Parser parser = new Parser(lex);
         try {
             parser.parse();
+            System.out.println("====================================");
+            //Util.Utilidades.imprimirConjuntos();
+            //Util.Utilidades.imprimirOperaciones();
+            //Util.Utilidades.imprimirEvaluaciones();
+            Util.Ejecutar.Ejecutar();
             jTextArea1.setText("Analisis completo exitoso");
             jTextArea1.setText(Util.Ejecutar.SalidaConsola());
         } catch (Exception e) {
             jTextArea1.setText("Error fatal en compilación de entrada.\nCausa: " + e.getCause() + "\nMensaje: " + e.getMessage());
         }
         
-        System.out.println("====================================");
-        //Util.Utilidades.imprimirConjuntos();
-        //Util.Utilidades.imprimirOperaciones();
-        //Util.Utilidades.imprimirEvaluaciones();
-        Util.Ejecutar.Ejecutar();
+
 
 
     }//GEN-LAST:event_jButton1ActionPerformed

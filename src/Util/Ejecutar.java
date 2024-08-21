@@ -5,11 +5,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.awt.Desktop;
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.function.BiFunction;
@@ -22,31 +27,122 @@ import Util.Utilidades;
 
 public class Ejecutar {
 
-    public static void Ejecutar(){
-      Util.Utilidades.imprimirConjuntos();      // Los imprime ya spliteados
-      Util.Utilidades.imprimirOperaciones();    // Los imprime ya spliteados
-      Util.Utilidades.imprimirEvaluaciones();   // Los imprime ya spliteados
-      
-      System.out.println("====================================");
-      System.out.println("EJECUTAR");
-      System.out.println("====================================");
+    // Map para almacenar los resultados de las operaciones
+    private static Map<String, Set<String>> resultadosOperaciones = new HashMap<>();
 
-      
-      
+    public static void Ejecutar() {
+        Util.Utilidades.imprimirConjuntos(); // Los imprime ya spliteados
+        Util.Utilidades.imprimirOperaciones(); // Los imprime ya spliteados
+        Util.Utilidades.imprimirEvaluaciones(); // Los imprime ya spliteados
+        RealizarOperaciones();
+
+        System.out.println("====================================");
+        System.out.println("EJECUTAR");
+        System.out.println("====================================");
+
     }
 
     public static String SalidaConsola() {
-      
-      StringBuilder tabla = new StringBuilder();
 
-      for (Evaluacion eval : Util.Utilidades.listaEvaluaciones) {
-        tabla.append("==============================\n");
-        tabla.append("Evaluar: ").append(eval.getNombre()).append("\n");
-        tabla.append("==============================\n");
+        StringBuilder tabla = new StringBuilder();
+
+        for (Evaluacion eval : Util.Utilidades.listaEvaluaciones) {
+            tabla.append("==============================\n");
+            tabla.append("Evaluar: ").append(eval.getNombre()).append("\n");
+            tabla.append("==============================\n");
+            Set<String> resultadoOperacion = resultadosOperaciones.get(eval.getNombre());
+            if (resultadoOperacion != null) {
+                String[] evs = (String[]) eval.getValor();
+                for (String ev : evs) {
+                    if (resultadoOperacion.contains(ev)) {
+                        tabla.append(ev).append(" -> exitoso\n");
+                    } else {
+                        tabla.append(ev).append(" -> fallo\n");
+                    }
+                }
+            } else {
+                tabla.append("No se encontró la operación correspondiente.\n");
+            }
+
+
+        }
+        return tabla.toString();
+    }
+
+    // Realizar operaciones de conjuntos
+    public static void RealizarOperaciones() {
+    for (Operacion operacion : Utilidades.listaOperaciones) {
         
-      }
+        Stack<String> operadores = new Stack<>();
+        Deque<Set<String>> conjuntos = new ArrayDeque<>();
 
-      return tabla.toString();
-  }
+        String[] tokens = (String[]) operacion.getValor();
+        for (String token : tokens) {
+            if (token.equals("U") || token.equals("&") || token.equals("^") || token.equals("-")) {
+                operadores.push(token);
+                System.out.println("Operador: " + token + " Se añadio en la pila");
+                System.out.println("==============================================");
+            } else {
+                Conjunto conjunto = Utilidades.obtenerConjuntoPorNombre(token.trim());
+                if (conjunto != null) {
+                    Set<String> elementos = new HashSet<>(Arrays.asList((String[]) conjunto.getValor()));
+                    System.out.println("Elementos: " + elementos);
+                    conjuntos.add(elementos);
+                    System.out.println("Conjunto: " + token + " Se añadio en la cola");
+                } else {
+                    System.out.println("Conjunto no encontrado: " + token);
+                }
+            }
+        }
+
+        while (!operadores.isEmpty()) {
+            String operador = operadores.pop();
+            Set<String> resultado = new HashSet<>();
+
+            if (operador.equals("^")) {
+                Set<String> conjunto = conjuntos.poll();
+                Set<String> universo = new HashSet<>();
+                for (int i = 33; i <= 126; i++) {
+                    universo.add(Character.toString((char) i));
+                }
+                resultado = new HashSet<>(universo);
+                resultado.removeAll(conjunto);
+            } else {
+                Set<String> conjunto1 = conjuntos.poll();
+                Set<String> conjunto2 = conjuntos.poll();
+
+                switch (operador) {
+                    case "U":
+                        resultado = new HashSet<>(conjunto1);
+                        resultado.addAll(conjunto2);
+                        break;
+                    case "&":
+                        resultado = new HashSet<>(conjunto1);
+                        resultado.retainAll(conjunto2);
+                        break;
+                    case "-":
+                        resultado = new HashSet<>(conjunto1);
+                        resultado.removeAll(conjunto2);
+                        break;
+                }
+            }
+
+            // Añadir el resultado al principio de la cola
+            conjuntos.addFirst(resultado);
+        }
+
+        // Imprimir el resultado final de la operación completa
+        if (!conjuntos.isEmpty()) {
+            Set<String> resultadoFinal = conjuntos.poll();
+            resultadosOperaciones.put(operacion.getNombre(), resultadoFinal);
+            System.out.println("Resultado final de la operación: " + setToString(resultadoFinal));
+        }
+    }
+}
+
+    // Método auxiliar para convertir un conjunto a una cadena
+    private static String setToString(Set<String> set) {
+        return set.toString();
+    }
 
 }

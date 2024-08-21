@@ -1,0 +1,23 @@
+# Archivo de prueba intermedio
+
+{
+
+    #Definimos los conjuntos
+    CONJ: cA -> 0~9;
+    CONJ: cB -> 2,4,6,8;
+
+    OPERA : op1 -> U U ^ ^ {cA} {cA} {cB}; # ((^^A) U A) U B
+    OPERA : op2 -> - U & {cA} {cB} {cA} {cB}; # (A U(A & B)) - B
+
+    EVALUAR({$,%,9}, op1);
+    EVALUAR({a, 2, C},op2);
+
+}
+
+<!
+op1 se simplifica a: cA U cB
+op2 se simplifica a: cA - cB
+
+En el evaluar de op1 solo 9 es exitoso
+En el evaluar de op2 todos fallan
+!>

@@ -61,7 +61,7 @@ public class Ejecutar {
                     }
                 }
             } else {
-                tabla.append("No se encontró la operación correspondiente.\n");
+                tabla.append("No se encontró la operacion o esta tenia conjuntos que no existen\n");
             }
 
 
@@ -71,74 +71,73 @@ public class Ejecutar {
 
     // Realizar operaciones de conjuntos
     public static void RealizarOperaciones() {
-    for (Operacion operacion : Utilidades.listaOperaciones) {
-        
-        Stack<String> operadores = new Stack<>();
-        Deque<Set<String>> conjuntos = new ArrayDeque<>();
+        for (int i = 0; i < Utilidades.listaOperaciones.size(); i++) {
+            Operacion operacion = Utilidades.listaOperaciones.get(i);
+            
+            Deque<Set<String>> pila = new ArrayDeque<>();
+            boolean conjuntosExisten = true;
 
-        String[] tokens = (String[]) operacion.getValor();
-        for (String token : tokens) {
-            if (token.equals("U") || token.equals("&") || token.equals("^") || token.equals("-")) {
-                operadores.push(token);
-                System.out.println("Operador: " + token + " Se añadio en la pila");
-                System.out.println("==============================================");
-            } else {
-                Conjunto conjunto = Utilidades.obtenerConjuntoPorNombre(token.trim());
-                if (conjunto != null) {
-                    Set<String> elementos = new HashSet<>(Arrays.asList((String[]) conjunto.getValor()));
-                    System.out.println("Elementos: " + elementos);
-                    conjuntos.add(elementos);
-                    System.out.println("Conjunto: " + token + " Se añadio en la cola");
+            String[] tokens = (String[]) operacion.getValor();
+            for (int j = tokens.length - 1; j >= 0; j--) {
+                String token = tokens[j];
+                if (token.equals("U") || token.equals("&") || token.equals("^") || token.equals("-")) {
+                    if (token.equals("^")) {
+                        Set<String> conjunto = pila.pop();
+                        Set<String> universo = new HashSet<>();
+                        for (int k = 33; k <= 126; k++) {
+                            universo.add(Character.toString((char) k));
+                        }
+                        Set<String> complemento = new HashSet<>(universo);
+                        complemento.removeAll(conjunto);
+                        pila.push(complemento);
+                    } else {
+                        Set<String> conjunto1 = pila.pop();
+                        Set<String> conjunto2 = pila.pop();
+                        Set<String> resultado = new HashSet<>();
+                        switch (token) {
+                            case "U":
+                                resultado.addAll(conjunto1);
+                                resultado.addAll(conjunto2);
+                                break;
+                            case "&":
+                                resultado.addAll(conjunto1);
+                                resultado.retainAll(conjunto2);
+                                break;
+                            case "-":
+                                resultado.addAll(conjunto1);
+                                resultado.removeAll(conjunto2);
+                                break;
+                        }
+                        pila.push(resultado);
+                    }
                 } else {
-                    System.out.println("Conjunto no encontrado: " + token);
-                }
-            }
-        }
-
-        while (!operadores.isEmpty()) {
-            String operador = operadores.pop();
-            Set<String> resultado = new HashSet<>();
-
-            if (operador.equals("^")) {
-                Set<String> conjunto = conjuntos.poll();
-                Set<String> universo = new HashSet<>();
-                for (int i = 33; i <= 126; i++) {
-                    universo.add(Character.toString((char) i));
-                }
-                resultado = new HashSet<>(universo);
-                resultado.removeAll(conjunto);
-            } else {
-                Set<String> conjunto1 = conjuntos.poll();
-                Set<String> conjunto2 = conjuntos.poll();
-
-                switch (operador) {
-                    case "U":
-                        resultado = new HashSet<>(conjunto1);
-                        resultado.addAll(conjunto2);
+                    Conjunto conjunto = Utilidades.obtenerConjuntoPorNombre(token.trim());
+                    if (conjunto != null) {
+                        Set<String> elementos = new HashSet<>(Arrays.asList((String[]) conjunto.getValor()));
+                        pila.push(elementos);
+                    } else {
+                        System.out.println("Conjunto no encontrado: " + token);
+                        conjuntosExisten = false;
                         break;
-                    case "&":
-                        resultado = new HashSet<>(conjunto1);
-                        resultado.retainAll(conjunto2);
-                        break;
-                    case "-":
-                        resultado = new HashSet<>(conjunto1);
-                        resultado.removeAll(conjunto2);
-                        break;
+                    }
                 }
             }
 
-            // Añadir el resultado al principio de la cola
-            conjuntos.addFirst(resultado);
-        }
+            if (!conjuntosExisten) {
+                System.out.println("Operación eliminada debido a conjuntos faltantes: " + operacion.getNombre());
+                Utilidades.eliminarOperacion(operacion.getNombre());
+                i--; // Ajustar el índice después de eliminar la operación
+                continue;
+            }
 
-        // Imprimir el resultado final de la operación completa
-        if (!conjuntos.isEmpty()) {
-            Set<String> resultadoFinal = conjuntos.poll();
-            resultadosOperaciones.put(operacion.getNombre(), resultadoFinal);
-            System.out.println("Resultado final de la operación: " + setToString(resultadoFinal));
+            // Imprimir el resultado final de la operación completa
+            if (!pila.isEmpty()) {
+                Set<String> resultadoFinal = pila.pop();
+                resultadosOperaciones.put(operacion.getNombre(), resultadoFinal);
+                System.out.println("Resultado final de la operación (" + operacion.getNombre()+ ") : " + setToString(resultadoFinal) );
+            }
         }
     }
-}
 
     // Método auxiliar para convertir un conjunto a una cadena
     private static String setToString(Set<String> set) {

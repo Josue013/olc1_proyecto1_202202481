@@ -60,6 +60,7 @@ non terminal operador;
 non terminal ArrayList listaComplemento;
 non terminal ArrayList conjuntos;
 non terminal ArrayList operacionComb;
+non terminal ArrayList OperacionFinal;
 
 // Producción inicial
 start with programa;
@@ -72,18 +73,23 @@ sentencias ::= sentencias:a sentencia:b     {:RESULT=a; RESULT.add(b);:}
              | sentencia:a                  {:RESULT=new ArrayList(); RESULT.add(a);:}
              ;
 
-sentencia ::= conjunto:c {: System.out.println("Sentencia Conjunto: "+c); RESULT = c; :}
-            | operacion:o  {: System.out.println("Sentencia Operacion: "+o); RESULT = o; :}
-            | evaluacion:e {: System.out.println("Sentencia Evaluacion: "+e); RESULT = e; :}
+sentencia ::= conjunto:c PUNTO_Y_COMA {: System.out.println("Sentencia Conjunto: "+c); RESULT = c; :}
+            | operacion:o PUNTO_Y_COMA {: System.out.println("Sentencia Operacion: "+o); RESULT = o; :}
+            | evaluacion:e PUNTO_Y_COMA {: System.out.println("Sentencia Evaluacion: "+e); RESULT = e; :}
+            | error PUNTO_Y_COMA       {: System.out.println("Error en la sentencia."); :}
             ;
 
-conjunto ::= CONJ DOS_PUNTOS ID:a FLECHA definicion:b PUNTO_Y_COMA {: RESULT = new Conjunto(a,b.toString()); Util.Utilidades.agregarConjunto(a,b.toString()); :} ; // CONj a=conjA b=0~4
+conjunto ::= CONJ DOS_PUNTOS ID:a FLECHA definicion:b  {: RESULT = new Conjunto(a,b.toString()); Util.Utilidades.agregarConjunto(a,b.toString()); :} ; // CONj a=conjA b=0~4
 
 definicion ::= INTERV:a     {: RESULT = a; :}
              | LISTA:a      {: RESULT = a; :}
              ;
 
-operacion ::= OPERA DOS_PUNTOS ID:a FLECHA operadoresyconjuntos:b PUNTO_Y_COMA {: RESULT = new Operacion(a,b.toString()); Util.Utilidades.agregarOperacion(a,b.toString()); :} ;
+operacion ::= OPERA DOS_PUNTOS ID:a FLECHA OperacionFinal:b  {: RESULT = new Operacion(a,b.toString()); Util.Utilidades.agregarOperacion(a,b.toString()); :} ;
+
+OperacionFinal ::= OperacionFinal:a operadoresyconjuntos:b {:RESULT=a; RESULT.add(b);:}
+                 | operadoresyconjuntos:a               {:RESULT=new ArrayList(); RESULT.add(a);:}
+                 ;
 
 operadoresyconjuntos ::= operacionDef:a           {:RESULT = a;:}
                         | operacionComplemento:b  {:RESULT = b;:}
@@ -94,6 +100,8 @@ operacionDef ::= operacionComb:a conjuntos:b {:RESULT=a; RESULT.add(b);:} ;
 
 operacionComb ::= operadoresLista:a listaComplemento:b {:RESULT=a; RESULT.addAll(b);:}
                  | listaComplemento:a operadoresLista:b {:RESULT=a; RESULT.addAll(b);:}
+                 | operadoresLista:a listaComplemento:b operadoresLista:c {:RESULT=a; RESULT.addAll(b); RESULT.addAll(c);:}
+                 | listaComplemento:a operadoresLista:b listaComplemento:c {:RESULT=a; RESULT.addAll(b); RESULT.addAll(c);:}
                  | operadoresLista:a                    {:RESULT=a;:}
                  ;
 
@@ -116,5 +124,5 @@ conjuntos ::= conjuntos:a LISTA_CONJ:b      {:RESULT=a; RESULT.add(b);:}
             | LISTA_CONJ:a                  {:RESULT=new ArrayList(); RESULT.add(a);:}
             ;
 
-evaluacion ::= EVALUAR PAREN_IZQ LISTA_ELEMENTOS:a COMA ID:b PAREN_DER PUNTO_Y_COMA {: RESULT = new Evaluacion(b,a); Util.Utilidades.agregarEvaluacion(b,a); :}; // EVALUAR b=operacion1 a={1,2,3,4,5} 
+evaluacion ::= EVALUAR PAREN_IZQ LISTA_ELEMENTOS:a COMA ID:b PAREN_DER  {: RESULT = new Evaluacion(b,a); Util.Utilidades.agregarEvaluacion(b,a); :}; // EVALUAR b=operacion1 a={1,2,3,4,5} 
 

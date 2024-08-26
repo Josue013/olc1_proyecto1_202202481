@@ -12,8 +12,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.json.JSONObject;
+
 import Util.Operacion;
 import Util.Utilidades;
+import Util.Propiedades;
 
 
 /**
@@ -80,6 +84,7 @@ public class ConjAnalyzer {
             }
             System.out.println("====================================");
             */
+
         } catch (Exception e) {
             // Manejo de excepciones
             e.printStackTrace(); // Imprimir el stack trace para depuración

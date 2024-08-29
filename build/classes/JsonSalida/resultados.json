@@ -1,0 +1,10 @@
+{
+    "operacion1": {
+        "conjunto_simplificado": "conjuntoA & conjuntoB",
+        "leyes": ["Expresión simplificada: conjuntoA & conjuntoB"]
+    },
+    "operacion2": {
+        "conjunto_simplificado": "conjuntoB U conjuntoC & conjuntoA",
+        "leyes": ["Expresión simplificada: conjuntoB U conjuntoC & conjuntoA"]
+    }
+}

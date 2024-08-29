@@ -24,6 +24,8 @@ import Util.Evaluacion;
 import INTERFAZ.Interfaz;
 import Util.Tokens;
 import Util.Utilidades;
+import Util.Propiedades;
+import Util.PanelGrafica;
 
 public class Ejecutar {
 
@@ -35,6 +37,7 @@ public class Ejecutar {
         Util.Utilidades.imprimirOperaciones(); // Los imprime ya spliteados
         Util.Utilidades.imprimirEvaluaciones(); // Los imprime ya spliteados
         RealizarOperaciones();
+        Util.PanelGrafica.graficarOperaciones();
 
         System.out.println("====================================");
         System.out.println("EJECUTAR");
@@ -73,15 +76,24 @@ public class Ejecutar {
     public static void RealizarOperaciones() {
         for (int i = 0; i < Utilidades.listaOperaciones.size(); i++) {
             Operacion operacion = Utilidades.listaOperaciones.get(i);
-            
-            Deque<Set<String>> pila = new ArrayDeque<>();
+            Stack<Set<String>> pila = new Stack<>();
             boolean conjuntosExisten = true;
 
             String[] tokens = (String[]) operacion.getValor();
+            System.out.println("Procesando operación: " + operacion.getNombre());
+            System.out.println("Tokens: " + Arrays.toString(tokens));
+            
             for (int j = tokens.length - 1; j >= 0; j--) {
                 String token = tokens[j];
-                if (token.equals("U") || token.equals("&") || token.equals("^") || token.equals("-")) {
+                System.out.println("Procesando token: " + token);
+                
+                if (esOperador(token)) {
                     if (token.equals("^")) {
+                        if (pila.isEmpty()) {
+                            System.out.println("Error: Pila vacía al intentar aplicar operador " + token);
+                            conjuntosExisten = false;
+                            break;
+                        }
                         Set<String> conjunto = pila.pop();
                         Set<String> universo = new HashSet<>();
                         for (int k = 33; k <= 126; k++) {
@@ -90,7 +102,13 @@ public class Ejecutar {
                         Set<String> complemento = new HashSet<>(universo);
                         complemento.removeAll(conjunto);
                         pila.push(complemento);
+                        System.out.println("Resultado del complemento: " + setToString(complemento));
                     } else {
+                        if (pila.size() < 2) {
+                            System.out.println("Error: Pila con menos de dos elementos al intentar realizar operación binaria");
+                            conjuntosExisten = false;
+                            break;
+                        }
                         Set<String> conjunto1 = pila.pop();
                         Set<String> conjunto2 = pila.pop();
                         Set<String> resultado = new HashSet<>();
@@ -98,14 +116,22 @@ public class Ejecutar {
                             case "U":
                                 resultado.addAll(conjunto1);
                                 resultado.addAll(conjunto2);
+                                System.out.println("Resultado de la unión: " + setToString(resultado));
                                 break;
                             case "&":
-                                resultado.addAll(conjunto1);
-                                resultado.retainAll(conjunto2);
+                                System.out.println("Conjunto1: " + setToString(conjunto1));
+                                System.out.println("Conjunto2: " + setToString(conjunto2));
+                                for (String elemento : conjunto1) {
+                                    if (conjunto2.contains(elemento)) {
+                                        resultado.add(elemento);
+                                    }
+                                }
+                                System.out.println("Resultado de la intersección: " + setToString(resultado));
                                 break;
                             case "-":
                                 resultado.addAll(conjunto1);
                                 resultado.removeAll(conjunto2);
+                                System.out.println("Resultado de la diferencia: " + setToString(resultado));
                                 break;
                         }
                         pila.push(resultado);
@@ -115,6 +141,7 @@ public class Ejecutar {
                     if (conjunto != null) {
                         Set<String> elementos = new HashSet<>(Arrays.asList((String[]) conjunto.getValor()));
                         pila.push(elementos);
+                        System.out.println("Conjunto apilado: " + setToString(elementos));
                     } else {
                         System.out.println("Conjunto no encontrado: " + token);
                         conjuntosExisten = false;
@@ -130,18 +157,23 @@ public class Ejecutar {
                 continue;
             }
 
-            // Imprimir el resultado final de la operación completa
             if (!pila.isEmpty()) {
                 Set<String> resultadoFinal = pila.pop();
                 resultadosOperaciones.put(operacion.getNombre(), resultadoFinal);
-                System.out.println("Resultado final de la operación (" + operacion.getNombre()+ ") : " + setToString(resultadoFinal) );
+                System.out.println("Resultado final de la operación (" + operacion.getNombre() + ") : " + setToString(resultadoFinal));
             }
         }
+    }
+
+    private static boolean esOperador(String token) {
+        return token.equals("U") || token.equals("&") || token.equals("-") || token.equals("^");
     }
 
     // Método auxiliar para convertir un conjunto a una cadena
     private static String setToString(Set<String> set) {
         return set.toString();
     }
+
+    
 
 }

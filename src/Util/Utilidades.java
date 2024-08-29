@@ -290,39 +290,43 @@
       String valor = (String) conjunto.getValor(); // Obtener el valor del conjunto
 
       if (valor.contains("~")) { // si contiene un ~
-        // Es un intervalo
-        String[] interval = valor.split("~"); // Separar el intervalo
-        char start = interval[0].charAt(0); // Obtener el primer caracter
-        char end = interval[1].charAt(0); // Obtener el segundo caracter
-        ArrayList<String> elements = new ArrayList<>(); // Lista de elementos
+          // Eliminar espacios alrededor del ~
+          valor = valor.replaceAll("\\s*~\\s*", "~");
 
-        for (char c = start; c <= end; c++) { // Recorrer el intervalo
-          elements.add(String.valueOf(c)); // Agregar el caracter a la lista
-        }
+          // Es un intervalo
+          String[] interval = valor.split("~"); // Separar el intervalo
+          char start = interval[0].charAt(0); // Obtener el primer caracter
+          char end = interval[1].charAt(0); // Obtener el segundo caracter
+          ArrayList<String> elements = new ArrayList<>(); // Lista de elementos
 
-        conjunto.setValor(elements.toArray(new String[0])); // Convertir la lista a un arreglo
+          for (char c = start; c <= end; c++) { // Recorrer el intervalo
+              elements.add(String.valueOf(c)); // Agregar el caracter a la lista
+          }
+
+          conjunto.setValor(elements.toArray(new String[0])); // Convertir la lista a un arreglo
 
       } else {
-        // Es una lista de elementos
-        conjunto.setValor(valor.split(",")); // Separar los elementos por coma
+          // Es una lista de elementos
+          valor = valor.replaceAll("\\s*,\\s*", ";"); // Reemplazar comas con espacios alrededor con punto y coma
+          conjunto.setValor(valor.split(";")); // Separar los elementos por punto y coma
       }
-    }
+  }
 
-    // Metodo para splitear el objeto de la lista de operaciones
-    public static void splitOperacion(Operacion operacion){
+  // Metodo para splitear el objeto de la lista de operaciones
+  public static void splitOperacion(Operacion operacion) {
       String valor = (String) operacion.getValor(); // Obtener el valor de la operación
       valor = valor.replaceAll("[\\{\\}\\[\\]\\s]", ""); // Remover corchetes y espacios innecesarios
+      valor = valor.replaceAll("\\s*,\\s*", ";"); // Reemplazar comas con espacios alrededor con punto y coma
+      operacion.setValor(valor.split(";")); // Separar los elementos por punto y coma
+  }
 
-      operacion.setValor(valor.split(",")); // Separar los elementos por coma
-    }
-
-    // Metodo para splitear el objeto de la lista de evaluaciones
-    public static void splitEvaluacion(Evaluacion evaluacion) {
+  // Metodo para splitear el objeto de la lista de evaluaciones
+  public static void splitEvaluacion(Evaluacion evaluacion) {
       String valor = (String) evaluacion.getValor(); // Obtener el valor de la evaluación
       valor = valor.replaceAll("[\\{\\}\\[\\]\\s]", ""); // Remover corchetes y espacios innecesarios
-
-      evaluacion.setValor(valor.split(",")); // Separar los elementos por coma
-    }
+      valor = valor.replaceAll("\\s*,\\s*", ";"); // Reemplazar comas con espacios alrededor con punto y coma
+      evaluacion.setValor(valor.split(";")); // Separar los elementos por punto y coma
+  }
 
     
 

@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.awt.Desktop;
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -59,7 +61,7 @@ public class Ejecutar {
                     }
                 }
             } else {
-                tabla.append("No se encontró la operación correspondiente.\n");
+                tabla.append("No se encontró la operacion o esta tenia conjuntos que no existen\n");
             }
 
 
@@ -69,9 +71,12 @@ public class Ejecutar {
 
     // Realizar operaciones de conjuntos
     public static void RealizarOperaciones() {
-        for (Operacion operacion : Utilidades.listaOperaciones) {
+        for (int i = 0; i < Utilidades.listaOperaciones.size(); i++) {
+            Operacion operacion = Utilidades.listaOperaciones.get(i);
+            
             Stack<String> operadores = new Stack<>();
-            Queue<Set<String>> conjuntos = new LinkedList<>();
+            Deque<Set<String>> conjuntos = new ArrayDeque<>();
+            boolean conjuntosExisten = true;
 
             String[] tokens = (String[]) operacion.getValor();
             for (String token : tokens) {
@@ -88,8 +93,17 @@ public class Ejecutar {
                         System.out.println("Conjunto: " + token + " Se añadio en la cola");
                     } else {
                         System.out.println("Conjunto no encontrado: " + token);
+                        conjuntosExisten = false;
+                        break;
                     }
                 }
+            }
+
+            if (!conjuntosExisten) {
+                System.out.println("Operación eliminada debido a conjuntos faltantes: " + operacion.getNombre());
+                Utilidades.eliminarOperacion(operacion.getNombre());
+                i--; // Ajustar el índice después de eliminar la operación
+                continue;
             }
 
             while (!operadores.isEmpty()) {
@@ -99,8 +113,8 @@ public class Ejecutar {
                 if (operador.equals("^")) {
                     Set<String> conjunto = conjuntos.poll();
                     Set<String> universo = new HashSet<>();
-                    for (int i = 33; i <= 126; i++) {
-                        universo.add(Character.toString((char) i));
+                    for (int j = 33; j <= 126; j++) {
+                        universo.add(Character.toString((char) j));
                     }
                     resultado = new HashSet<>(universo);
                     resultado.removeAll(conjunto);
@@ -124,12 +138,12 @@ public class Ejecutar {
                     }
                 }
 
-                conjuntos.add(resultado);
+                // Añadir el resultado al principio de la cola
+                conjuntos.addFirst(resultado);
             }
 
             // Imprimir el resultado final de la operación completa
             if (!conjuntos.isEmpty()) {
-
                 Set<String> resultadoFinal = conjuntos.poll();
                 resultadosOperaciones.put(operacion.getNombre(), resultadoFinal);
                 System.out.println("Resultado final de la operación: " + setToString(resultadoFinal));

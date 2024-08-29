@@ -13,6 +13,13 @@
     },
     {
       "type": "java",
+      "name": "Ejecutar",
+      "request": "launch",
+      "mainClass": "Util.Ejecutar",
+      "projectName": "OLC1_Proyecto1_202202481_598d1180"
+    },
+    {
+      "type": "java",
       "name": "Propiedades",
       "request": "launch",
       "mainClass": "Util.Propiedades",

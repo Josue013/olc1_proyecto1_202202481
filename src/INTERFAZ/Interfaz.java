@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import Util.Propiedades;
 
 /**
  *
@@ -175,6 +176,11 @@ public class Interfaz extends javax.swing.JFrame {
         jButton6.setForeground(new java.awt.Color(0, 0, 0));
         jButton6.setText("Anterior");
         jButton6.setToolTipText("Anterior");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(255, 182, 164));
         jButton7.setForeground(new java.awt.Color(0, 0, 0));
@@ -328,6 +334,8 @@ public class Interfaz extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // ERRORES
         Utilidades.GeneradorHTML.generarErroresHTML();
+        
+        Propiedades.simplificarOperaciones();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -336,7 +344,7 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        // BOTON SIGUIENTE
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -361,6 +369,7 @@ public class Interfaz extends javax.swing.JFrame {
 
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // BOTON EJECUTAR
         Util.Utilidades.eliminarTodosLosConjuntos();
         Util.Utilidades.eliminarTodasLasOperaciones();
         Util.Utilidades.eliminarTodasLasEvaluaciones();
@@ -395,6 +404,10 @@ public class Interfaz extends javax.swing.JFrame {
         Utilidades.GeneradorHTML.generarTokensHTML();
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // BOTON ANTERIOR
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments

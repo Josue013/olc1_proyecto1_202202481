@@ -285,13 +285,36 @@
       System.out.println("====================================");
     }
 
-    // Metodo para splitear el objeto de la lista de conjuntos
-    public static void splitConjunto(Conjunto conjunto) {
+    // Método auxiliar para eliminar espacios en blanco
+    private static String eliminarEspacios(String str) {
+      StringBuilder sb = new StringBuilder();
+      for (char c : str.toCharArray()) {
+          if (!Character.isWhitespace(c)) {
+              sb.append(c);
+          }
+      }
+      return sb.toString();
+  }
+
+  // Método auxiliar para eliminar corchetes y llaves
+  private static String eliminarCorchetesYLlaves(String str) {
+      StringBuilder sb = new StringBuilder();
+      for (char c : str.toCharArray()) {
+          if (c != '{' && c != '}' && c != '[' && c != ']') {
+              sb.append(c);
+          }
+      }
+      return sb.toString();
+  }
+
+  // Metodo para splitear el objeto de la lista de conjuntos
+  public static void splitConjunto(Conjunto conjunto) {
       String valor = (String) conjunto.getValor(); // Obtener el valor del conjunto
 
       if (valor.contains("~")) { // si contiene un ~
           // Eliminar espacios alrededor del ~
-          valor = valor.replaceAll("\\s*~\\s*", "~");
+          valor = eliminarEspacios(valor);
+          valor = valor.replace("~", "~");
 
           // Es un intervalo
           String[] interval = valor.split("~"); // Separar el intervalo
@@ -307,25 +330,37 @@
 
       } else {
           // Es una lista de elementos
-          valor = valor.replaceAll("\\s*,\\s*", ";"); // Reemplazar comas con espacios alrededor con punto y coma
-          conjunto.setValor(valor.split(";")); // Separar los elementos por punto y coma
+          valor = eliminarEspacios(valor);
+          String[] elementos = valor.split(",");
+          for (int i = 0; i < elementos.length; i++) {
+              elementos[i] = elementos[i].trim(); // Eliminar espacios alrededor de cada elemento
+          }
+          conjunto.setValor(elementos); // Separar los elementos por coma
       }
   }
 
   // Metodo para splitear el objeto de la lista de operaciones
   public static void splitOperacion(Operacion operacion) {
       String valor = (String) operacion.getValor(); // Obtener el valor de la operación
-      valor = valor.replaceAll("[\\{\\}\\[\\]\\s]", ""); // Remover corchetes y espacios innecesarios
-      valor = valor.replaceAll("\\s*,\\s*", ";"); // Reemplazar comas con espacios alrededor con punto y coma
-      operacion.setValor(valor.split(";")); // Separar los elementos por punto y coma
+      valor = eliminarCorchetesYLlaves(valor); // Remover corchetes y llaves
+      valor = eliminarEspacios(valor); // Remover espacios innecesarios
+      String[] elementos = valor.split(",");
+      for (int i = 0; i < elementos.length; i++) {
+          elementos[i] = elementos[i].trim(); // Eliminar espacios alrededor de cada elemento
+      }
+      operacion.setValor(elementos); // Separar los elementos por coma
   }
 
   // Metodo para splitear el objeto de la lista de evaluaciones
   public static void splitEvaluacion(Evaluacion evaluacion) {
       String valor = (String) evaluacion.getValor(); // Obtener el valor de la evaluación
-      valor = valor.replaceAll("[\\{\\}\\[\\]\\s]", ""); // Remover corchetes y espacios innecesarios
-      valor = valor.replaceAll("\\s*,\\s*", ";"); // Reemplazar comas con espacios alrededor con punto y coma
-      evaluacion.setValor(valor.split(";")); // Separar los elementos por punto y coma
+      valor = eliminarCorchetesYLlaves(valor); // Remover corchetes y llaves
+      valor = eliminarEspacios(valor); // Remover espacios innecesarios
+      String[] elementos = valor.split(",");
+      for (int i = 0; i < elementos.length; i++) {
+          elementos[i] = elementos[i].trim(); // Eliminar espacios alrededor de cada elemento
+      }
+      evaluacion.setValor(elementos); // Separar los elementos por coma
   }
 
     

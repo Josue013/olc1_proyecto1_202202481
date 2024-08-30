@@ -1,0 +1,37 @@
+<! 
+    pongamos a prueba
+    con operaciones entre 3 conjuntos
+!>
+    
+{
+    # Archivo avanzado
+    
+    CONJ : conjunto_1 -> " ~ /;
+    CONJ : conjunto_2 -> + ~ 9;
+    CONJ : conjunto_3 -> %, *, +, 5, 7, =, ?, _;
+
+    OPERA : operacion1 -> U
+                    ^ U U {conjunto_1} {conjunto_2} {conjunto_3}
+                    & & {conjunto_1} {conjunto_2} {conjunto_3} ;
+
+    EVALUAR({A, ", |, _, +, 9}, operacion1);
+
+}
+
+<!
+A -> exitoso
+" -> fallo
+| -> exitoso
+_ -> fallo
++ -> exitoso
+9 -> fallo
+!>
+
+U
+                    
+                    
+
+((conjunto_1 &  conjunto_2 & conjunto_3) U ^(conjunto_1 U conjunto_2 U conjunto_3))
+
+! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ]
+ ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~

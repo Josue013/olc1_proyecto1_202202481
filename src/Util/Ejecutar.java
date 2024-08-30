@@ -26,7 +26,7 @@ import Util.Tokens;
 import Util.Utilidades;
 import Util.Propiedades;
 import Util.PanelGrafica;
-
+import INTERFAZ.Interfaz;
 public class Ejecutar {
 
     // Map para almacenar los resultados de las operaciones
@@ -37,7 +37,7 @@ public class Ejecutar {
         Util.Utilidades.imprimirOperaciones(); // Los imprime ya spliteados
         Util.Utilidades.imprimirEvaluaciones(); // Los imprime ya spliteados
         RealizarOperaciones();
-        Util.PanelGrafica.graficarOperaciones();
+        //Util.PanelGrafica.graficarOperaciones(jPanel1);
 
         System.out.println("====================================");
         System.out.println("EJECUTAR");

@@ -1,4 +1,10 @@
-{"operacion1": {
-    "conjunto_simplificado": "conjunto_1 U conjunto_2 U conjunto_3 U conjunto_1 & conjunto_2 & conjunto_3",
-    "leyes": ["Expresión simplificada: conjunto_1 U conjunto_2 U conjunto_3 U conjunto_1 & conjunto_2 & conjunto_3"]
-}}
+{
+    "operacion1": {"mensaje": "No se puede simplificar la operación"},
+    "operacion2": {
+        "conjunto_simplificado": "^conjA",
+        "leyes": [
+            "Ley del doble complemento: ^^conjA = conjA",
+            "Expresión simplificada: ^conjA"
+        ]
+    }
+}

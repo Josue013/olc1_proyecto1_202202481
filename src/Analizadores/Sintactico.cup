@@ -67,7 +67,11 @@ start with programa;
 
 // Producciones 
 
-programa ::= LLAVE_IZQ sentencias:a LLAVE_DER {: System.out.println("Programa válido." ); :};
+programa ::= LLAVE_IZQ sentencias:a LLAVE_DER {: System.out.println("Programa válido." ); :}
+            | error LLAVE_IZQ sentencias:a LLAVE_DER {: System.out.println("Error antes de las llaves. Continuando..."); :}
+            | LLAVE_IZQ sentencias:a LLAVE_DER error {: System.out.println("Error después de las llaves. Continuando..."); :}
+            | error LLAVE_IZQ sentencias:a LLAVE_DER error {: System.out.println("Errores antes y después de las llaves. Continuando..."); :}
+            ;
 
 sentencias ::= sentencias:a sentencia:b     {:RESULT=a; RESULT.add(b);:}
              | sentencia:a                  {:RESULT=new ArrayList(); RESULT.add(a);:}

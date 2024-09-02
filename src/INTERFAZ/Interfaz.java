@@ -21,7 +21,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.Logger;    
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -74,6 +74,7 @@ public class Interfaz extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        BtnJSON = new javax.swing.JButton();
         pestañas = new javax.swing.JTabbedPane();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -161,6 +162,18 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jButton3);
+
+        BtnJSON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/INTERFAZ/json.png"))); // NOI18N
+        BtnJSON.setText("JSON");
+        BtnJSON.setFocusable(false);
+        BtnJSON.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BtnJSON.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BtnJSON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnJSONActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BtnJSON);
 
         pestañas.setBackground(new java.awt.Color(255, 255, 255));
         pestañas.setForeground(new java.awt.Color(153, 153, 153));
@@ -337,6 +350,11 @@ public class Interfaz extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BtnJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnJSONActionPerformed
+        // TODO add your handling code here:
+        Propiedades.simplificarOperaciones();
+    }//GEN-LAST:event_BtnJSONActionPerformed
+
     public void clearPanelesGraficos() {
         panelesGraficos.clear();
     }
@@ -374,8 +392,8 @@ public class Interfaz extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
         // ERRORES
         Utilidades.GeneradorHTML.generarErroresHTML();
-
-        Propiedades.simplificarOperaciones();
+        
+        
     }// GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton5ActionPerformed
@@ -599,6 +617,7 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnJSON;
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton jButton1;

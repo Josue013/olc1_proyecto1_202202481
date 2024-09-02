@@ -36,17 +36,18 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\043\000\002\002\004\000\002\002\005\000\002\003" +
-    "\004\000\002\003\003\000\002\004\004\000\002\004\004" +
-    "\000\002\004\004\000\002\004\004\000\002\005\007\000" +
-    "\002\011\003\000\002\011\003\000\002\006\007\000\002" +
-    "\022\004\000\002\022\003\000\002\013\003\000\002\013" +
-    "\003\000\002\012\004\000\002\021\004\000\002\021\004" +
-    "\000\002\021\005\000\002\021\005\000\002\021\006\000" +
-    "\002\021\006\000\002\021\003\000\002\015\004\000\002" +
-    "\015\003\000\002\014\004\000\002\017\004\000\002\017" +
-    "\003\000\002\016\003\000\002\016\003\000\002\016\003" +
-    "\000\002\020\004\000\002\020\003\000\002\007\010" });
+    "\000\046\000\002\002\004\000\002\002\005\000\002\002" +
+    "\006\000\002\002\006\000\002\002\007\000\002\003\004" +
+    "\000\002\003\003\000\002\004\004\000\002\004\004\000" +
+    "\002\004\004\000\002\004\004\000\002\005\007\000\002" +
+    "\011\003\000\002\011\003\000\002\006\007\000\002\022" +
+    "\004\000\002\022\003\000\002\013\003\000\002\013\003" +
+    "\000\002\012\004\000\002\021\004\000\002\021\004\000" +
+    "\002\021\005\000\002\021\005\000\002\021\006\000\002" +
+    "\021\006\000\002\021\003\000\002\015\004\000\002\015" +
+    "\003\000\002\014\004\000\002\017\004\000\002\017\003" +
+    "\000\002\016\003\000\002\016\003\000\002\016\003\000" +
+    "\002\020\004\000\002\020\003\000\002\007\010" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -54,53 +55,58 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\072\000\004\014\005\001\002\000\004\002\074\001" +
-    "\002\000\012\003\012\011\010\012\016\013\011\001\002" +
-    "\000\004\022\073\001\002\000\014\003\ufffe\011\ufffe\012" +
-    "\ufffe\013\ufffe\015\ufffe\001\002\000\004\023\065\001\002" +
-    "\000\004\016\060\001\002\000\004\022\057\001\002\000" +
-    "\004\022\056\001\002\000\004\022\055\001\002\000\014" +
-    "\003\012\011\010\012\016\013\011\015\053\001\002\000" +
-    "\004\023\017\001\002\000\004\004\020\001\002\000\004" +
-    "\020\021\001\002\000\012\024\023\025\030\026\032\027" +
-    "\024\001\002\000\014\022\ufff3\024\ufff3\025\ufff3\026\ufff3" +
-    "\027\ufff3\001\002\000\014\007\uffe4\024\uffe4\025\uffe4\026" +
-    "\uffe4\027\uffe4\001\002\000\014\007\uffe2\024\uffe2\025\uffe2" +
-    "\026\uffe2\027\uffe2\001\002\000\014\007\047\024\023\025" +
-    "\030\026\045\027\024\001\002\000\014\007\uffe8\024\uffe8" +
-    "\025\uffe8\026\uffe8\027\uffe8\001\002\000\014\007\uffea\024" +
-    "\023\025\030\026\032\027\024\001\002\000\014\007\uffe3" +
-    "\024\uffe3\025\uffe3\026\uffe3\027\uffe3\001\002\000\004\007" +
-    "\040\001\002\000\014\007\uffe5\024\uffe5\025\uffe5\026\uffe5" +
-    "\027\uffe5\001\002\000\014\022\ufff4\024\ufff4\025\ufff4\026" +
-    "\ufff4\027\ufff4\001\002\000\014\022\ufff2\024\ufff2\025\ufff2" +
-    "\026\ufff2\027\ufff2\001\002\000\014\022\ufff6\024\023\025" +
-    "\030\026\032\027\024\001\002\000\014\022\ufff5\024\ufff5" +
-    "\025\ufff5\026\ufff5\027\ufff5\001\002\000\016\007\041\022" +
-    "\ufff1\024\ufff1\025\ufff1\026\ufff1\027\ufff1\001\002\000\016" +
-    "\007\uffe0\022\uffe0\024\uffe0\025\uffe0\026\uffe0\027\uffe0\001" +
-    "\002\000\016\007\uffe1\022\uffe1\024\uffe1\025\uffe1\026\uffe1" +
-    "\027\uffe1\001\002\000\014\007\uffe9\024\uffe9\025\uffe9\026" +
-    "\uffe9\027\uffe9\001\002\000\014\007\ufff0\024\023\025\030" +
-    "\026\045\027\024\001\002\000\014\007\uffee\024\023\025" +
-    "\030\026\032\027\024\001\002\000\014\007\uffe6\024\uffe6" +
-    "\025\uffe6\026\uffe6\027\uffe6\001\002\000\006\007\uffeb\026" +
-    "\045\001\002\000\014\022\uffe7\024\uffe7\025\uffe7\026\uffe7" +
-    "\027\uffe7\001\002\000\014\007\uffef\024\023\025\030\026" +
-    "\032\027\024\001\002\000\014\007\uffed\024\023\025\030" +
-    "\026\045\027\024\001\002\000\012\007\uffec\024\023\025" +
-    "\030\027\024\001\002\000\004\002\000\001\002\000\014" +
-    "\003\uffff\011\uffff\012\uffff\013\uffff\015\uffff\001\002\000" +
-    "\014\003\ufffb\011\ufffb\012\ufffb\013\ufffb\015\ufffb\001\002" +
-    "\000\014\003\ufffc\011\ufffc\012\ufffc\013\ufffc\015\ufffc\001" +
-    "\002\000\014\003\ufffa\011\ufffa\012\ufffa\013\ufffa\015\ufffa" +
-    "\001\002\000\004\010\061\001\002\000\004\021\062\001" +
-    "\002\000\004\004\063\001\002\000\004\017\064\001\002" +
-    "\000\004\022\uffdf\001\002\000\004\004\066\001\002\000" +
-    "\004\020\067\001\002\000\006\005\071\006\072\001\002" +
-    "\000\004\022\ufff9\001\002\000\004\022\ufff8\001\002\000" +
-    "\004\022\ufff7\001\002\000\014\003\ufffd\011\ufffd\012\ufffd" +
-    "\013\ufffd\015\ufffd\001\002\000\004\002\001\001\002" });
+    "\000\100\000\006\003\005\014\006\001\002\000\004\002" +
+    "\102\001\002\000\004\014\076\001\002\000\012\003\013" +
+    "\011\011\012\017\013\012\001\002\000\004\022\075\001" +
+    "\002\000\014\003\ufffb\011\ufffb\012\ufffb\013\ufffb\015\ufffb" +
+    "\001\002\000\004\023\067\001\002\000\004\016\062\001" +
+    "\002\000\004\022\061\001\002\000\004\022\060\001\002" +
+    "\000\004\022\057\001\002\000\014\003\013\011\011\012" +
+    "\017\013\012\015\054\001\002\000\004\023\020\001\002" +
+    "\000\004\004\021\001\002\000\004\020\022\001\002\000" +
+    "\012\024\024\025\031\026\033\027\025\001\002\000\014" +
+    "\022\ufff0\024\ufff0\025\ufff0\026\ufff0\027\ufff0\001\002\000" +
+    "\014\007\uffe1\024\uffe1\025\uffe1\026\uffe1\027\uffe1\001\002" +
+    "\000\014\007\uffdf\024\uffdf\025\uffdf\026\uffdf\027\uffdf\001" +
+    "\002\000\014\007\050\024\024\025\031\026\046\027\025" +
+    "\001\002\000\014\007\uffe5\024\uffe5\025\uffe5\026\uffe5\027" +
+    "\uffe5\001\002\000\014\007\uffe7\024\024\025\031\026\033" +
+    "\027\025\001\002\000\014\007\uffe0\024\uffe0\025\uffe0\026" +
+    "\uffe0\027\uffe0\001\002\000\004\007\041\001\002\000\014" +
+    "\007\uffe2\024\uffe2\025\uffe2\026\uffe2\027\uffe2\001\002\000" +
+    "\014\022\ufff1\024\ufff1\025\ufff1\026\ufff1\027\ufff1\001\002" +
+    "\000\014\022\uffef\024\uffef\025\uffef\026\uffef\027\uffef\001" +
+    "\002\000\014\022\ufff3\024\024\025\031\026\033\027\025" +
+    "\001\002\000\014\022\ufff2\024\ufff2\025\ufff2\026\ufff2\027" +
+    "\ufff2\001\002\000\016\007\042\022\uffee\024\uffee\025\uffee" +
+    "\026\uffee\027\uffee\001\002\000\016\007\uffdd\022\uffdd\024" +
+    "\uffdd\025\uffdd\026\uffdd\027\uffdd\001\002\000\016\007\uffde" +
+    "\022\uffde\024\uffde\025\uffde\026\uffde\027\uffde\001\002\000" +
+    "\014\007\uffe6\024\uffe6\025\uffe6\026\uffe6\027\uffe6\001\002" +
+    "\000\014\007\uffed\024\024\025\031\026\046\027\025\001" +
+    "\002\000\014\007\uffeb\024\024\025\031\026\033\027\025" +
+    "\001\002\000\014\007\uffe3\024\uffe3\025\uffe3\026\uffe3\027" +
+    "\uffe3\001\002\000\006\007\uffe8\026\046\001\002\000\014" +
+    "\022\uffe4\024\uffe4\025\uffe4\026\uffe4\027\uffe4\001\002\000" +
+    "\014\007\uffec\024\024\025\031\026\033\027\025\001\002" +
+    "\000\014\007\uffea\024\024\025\031\026\046\027\025\001" +
+    "\002\000\012\007\uffe9\024\024\025\031\027\025\001\002" +
+    "\000\006\002\000\003\056\001\002\000\014\003\ufffc\011" +
+    "\ufffc\012\ufffc\013\ufffc\015\ufffc\001\002\000\004\002\ufffe" +
+    "\001\002\000\014\003\ufff8\011\ufff8\012\ufff8\013\ufff8\015" +
+    "\ufff8\001\002\000\014\003\ufff9\011\ufff9\012\ufff9\013\ufff9" +
+    "\015\ufff9\001\002\000\014\003\ufff7\011\ufff7\012\ufff7\013" +
+    "\ufff7\015\ufff7\001\002\000\004\010\063\001\002\000\004" +
+    "\021\064\001\002\000\004\004\065\001\002\000\004\017" +
+    "\066\001\002\000\004\022\uffdc\001\002\000\004\004\070" +
+    "\001\002\000\004\020\071\001\002\000\006\005\073\006" +
+    "\074\001\002\000\004\022\ufff6\001\002\000\004\022\ufff5" +
+    "\001\002\000\004\022\ufff4\001\002\000\014\003\ufffa\011" +
+    "\ufffa\012\ufffa\013\ufffa\015\ufffa\001\002\000\012\003\013" +
+    "\011\011\012\017\013\012\001\002\000\014\003\013\011" +
+    "\011\012\017\013\012\015\100\001\002\000\006\002\uffff" +
+    "\003\101\001\002\000\004\002\ufffd\001\002\000\004\002" +
+    "\001\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -108,31 +114,34 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\072\000\004\002\003\001\001\000\002\001\001\000" +
-    "\014\003\014\004\006\005\005\006\012\007\013\001\001" +
+    "\000\100\000\004\002\003\001\001\000\002\001\001\000" +
+    "\002\001\001\000\014\003\015\004\007\005\006\006\013" +
+    "\007\014\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\012\004\054\005\006\006" +
+    "\013\007\014\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\022\012\022\013\033\014\034\015" +
+    "\027\016\026\017\025\021\031\022\035\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\006\015" +
+    "\050\016\026\001\001\000\002\001\001\000\006\016\042" +
+    "\017\043\001\001\000\002\001\001\000\004\020\037\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\020\012\022\013\036\014\034\015\027\016\026\017" +
+    "\025\021\031\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\006\015\044\016\026\001\001\000\006\016\042\017\046" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\006\016\042\017\051\001\001\000\006\015\052" +
+    "\016\026\001\001\000\004\016\042\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\012\004\053\005\005\006\012\007\013\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\022\012\021\013\032\014\033\015\026\016\025\017" +
-    "\024\021\030\022\034\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\006\015\047\016\025\001" +
-    "\001\000\002\001\001\000\006\016\041\017\042\001\001" +
-    "\000\002\001\001\000\004\020\036\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\020\012\021" +
-    "\013\035\014\033\015\026\016\025\017\024\021\030\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\006\015\043\016" +
-    "\025\001\001\000\006\016\041\017\045\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\006\016" +
-    "\041\017\050\001\001\000\006\015\051\016\025\001\001" +
-    "\000\004\016\041\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\004\011\067\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001" });
+    "\001\001\000\002\001\001\000\002\001\001\000\004\011" +
+    "\071\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\014\003\076\004\007\005" +
+    "\006\006\013\007\014\001\001\000\012\004\054\005\006" +
+    "\006\013\007\014\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -248,7 +257,43 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // sentencias ::= sentencias sentencia 
+          case 2: // programa ::= error LLAVE_IZQ sentencias LLAVE_DER 
+            {
+              Object RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+		ArrayList a = (ArrayList)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		 System.out.println("Error antes de las llaves. Continuando..."); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("programa",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 3: // programa ::= LLAVE_IZQ sentencias LLAVE_DER error 
+            {
+              Object RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		ArrayList a = (ArrayList)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		 System.out.println("Error después de las llaves. Continuando..."); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("programa",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 4: // programa ::= error LLAVE_IZQ sentencias LLAVE_DER error 
+            {
+              Object RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+		ArrayList a = (ArrayList)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		 System.out.println("Errores antes y después de las llaves. Continuando..."); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("programa",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 5: // sentencias ::= sentencias sentencia 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -263,7 +308,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // sentencias ::= sentencia 
+          case 6: // sentencias ::= sentencia 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -275,7 +320,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // sentencia ::= conjunto PUNTO_Y_COMA 
+          case 7: // sentencia ::= conjunto PUNTO_Y_COMA 
             {
               Object RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -287,7 +332,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // sentencia ::= operacion PUNTO_Y_COMA 
+          case 8: // sentencia ::= operacion PUNTO_Y_COMA 
             {
               Object RESULT =null;
 		int oleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -299,7 +344,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // sentencia ::= evaluacion PUNTO_Y_COMA 
+          case 9: // sentencia ::= evaluacion PUNTO_Y_COMA 
             {
               Object RESULT =null;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -311,7 +356,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // sentencia ::= error PUNTO_Y_COMA 
+          case 10: // sentencia ::= error PUNTO_Y_COMA 
             {
               Object RESULT =null;
 		 System.out.println("Error en la sentencia."); 
@@ -320,7 +365,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // conjunto ::= CONJ DOS_PUNTOS ID FLECHA definicion 
+          case 11: // conjunto ::= CONJ DOS_PUNTOS ID FLECHA definicion 
             {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
@@ -335,7 +380,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // definicion ::= INTERV 
+          case 12: // definicion ::= INTERV 
             {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -347,7 +392,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // definicion ::= LISTA 
+          case 13: // definicion ::= LISTA 
             {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -359,7 +404,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // operacion ::= OPERA DOS_PUNTOS ID FLECHA OperacionFinal 
+          case 14: // operacion ::= OPERA DOS_PUNTOS ID FLECHA OperacionFinal 
             {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
@@ -374,7 +419,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // OperacionFinal ::= OperacionFinal operadoresyconjuntos 
+          case 15: // OperacionFinal ::= OperacionFinal operadoresyconjuntos 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -389,7 +434,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // OperacionFinal ::= operadoresyconjuntos 
+          case 16: // OperacionFinal ::= operadoresyconjuntos 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -401,7 +446,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // operadoresyconjuntos ::= operacionDef 
+          case 17: // operadoresyconjuntos ::= operacionDef 
             {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -413,7 +458,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // operadoresyconjuntos ::= operacionComplemento 
+          case 18: // operadoresyconjuntos ::= operacionComplemento 
             {
               Object RESULT =null;
 		int bleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -425,7 +470,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // operacionDef ::= operacionComb conjuntos 
+          case 19: // operacionDef ::= operacionComb conjuntos 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -440,7 +485,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // operacionComb ::= operadoresLista listaComplemento 
+          case 20: // operacionComb ::= operadoresLista listaComplemento 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -455,7 +500,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // operacionComb ::= listaComplemento operadoresLista 
+          case 21: // operacionComb ::= listaComplemento operadoresLista 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -470,7 +515,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // operacionComb ::= operadoresLista listaComplemento operadoresLista 
+          case 22: // operacionComb ::= operadoresLista listaComplemento operadoresLista 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
@@ -488,7 +533,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // operacionComb ::= listaComplemento operadoresLista listaComplemento 
+          case 23: // operacionComb ::= listaComplemento operadoresLista listaComplemento 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
@@ -506,7 +551,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // operacionComb ::= listaComplemento operadoresLista listaComplemento operadoresLista 
+          case 24: // operacionComb ::= listaComplemento operadoresLista listaComplemento operadoresLista 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
@@ -527,7 +572,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 22: // operacionComb ::= operadoresLista listaComplemento operadoresLista listaComplemento 
+          case 25: // operacionComb ::= operadoresLista listaComplemento operadoresLista listaComplemento 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
@@ -548,7 +593,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 23: // operacionComb ::= operadoresLista 
+          case 26: // operacionComb ::= operadoresLista 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -560,7 +605,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 24: // operadoresLista ::= operadoresLista operador 
+          case 27: // operadoresLista ::= operadoresLista operador 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -575,7 +620,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 25: // operadoresLista ::= operador 
+          case 28: // operadoresLista ::= operador 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -587,7 +632,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 26: // operacionComplemento ::= listaComplemento LISTA_CONJ 
+          case 29: // operacionComplemento ::= listaComplemento LISTA_CONJ 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -602,7 +647,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 27: // listaComplemento ::= listaComplemento COMPLEMENTO 
+          case 30: // listaComplemento ::= listaComplemento COMPLEMENTO 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -617,7 +662,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 28: // listaComplemento ::= COMPLEMENTO 
+          case 31: // listaComplemento ::= COMPLEMENTO 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -629,7 +674,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 29: // operador ::= UNION 
+          case 32: // operador ::= UNION 
             {
               Object RESULT =null;
 		int uleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -641,7 +686,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 30: // operador ::= INTERSECCION 
+          case 33: // operador ::= INTERSECCION 
             {
               Object RESULT =null;
 		int ileft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -653,7 +698,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 31: // operador ::= DIFERENCIA 
+          case 34: // operador ::= DIFERENCIA 
             {
               Object RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -665,7 +710,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 32: // conjuntos ::= conjuntos LISTA_CONJ 
+          case 35: // conjuntos ::= conjuntos LISTA_CONJ 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -680,7 +725,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 33: // conjuntos ::= LISTA_CONJ 
+          case 36: // conjuntos ::= LISTA_CONJ 
             {
               ArrayList RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
@@ -692,7 +737,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 34: // evaluacion ::= EVALUAR PAREN_IZQ LISTA_ELEMENTOS COMA ID PAREN_DER 
+          case 37: // evaluacion ::= EVALUAR PAREN_IZQ LISTA_ELEMENTOS COMA ID PAREN_DER 
             {
               Object RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;

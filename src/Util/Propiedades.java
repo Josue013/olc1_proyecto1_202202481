@@ -217,7 +217,7 @@ public class Propiedades {
 
     public static void generarJsonSalida(Map<String, Map<String, Object>> resultados) {
         JSONObject json = new JSONObject(resultados);
-        try (FileWriter file = new FileWriter("src/JsonSalida/resultados.json")) {
+        try (FileWriter file = new FileWriter("resultados.json")) {
             file.write(json.toString(4));
         } catch (IOException e) {
             e.printStackTrace();
@@ -235,7 +235,7 @@ public class Propiedades {
             resultados.put(operacion.getNombre(), resultado);
         }
         generarJsonSalida(resultados);
-        abrirArchivoJson("src/JsonSalida/resultados.json");
+        abrirArchivoJson("resultados.json");
     }
 
     public static void abrirArchivoJson(String rutaArchivo) {

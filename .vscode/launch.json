@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Interfaz",
+      "request": "launch",
+      "mainClass": "INTERFAZ.Interfaz",
+      "projectName": "olc1_proyecto1_202202481_723a7079"
+    },
+    {
+      "type": "java",
       "name": "ConjAnalyzer",
       "request": "launch",
       "mainClass": "Analizadores.ConjAnalyzer",

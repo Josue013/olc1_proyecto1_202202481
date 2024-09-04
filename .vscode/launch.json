@@ -13,13 +13,6 @@
     },
     {
       "type": "java",
-      "name": "ConjAnalyzer",
-      "request": "launch",
-      "mainClass": "Analizadores.ConjAnalyzer",
-      "projectName": "olc1_proyecto1_202202481_723a7079"
-    },
-    {
-      "type": "java",
       "name": "Ejecutar",
       "request": "launch",
       "mainClass": "Util.Ejecutar",

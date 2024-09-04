@@ -4,7 +4,6 @@ import java.util.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
-import java.awt.Desktop;
 import org.json.JSONObject;
 
 public class Propiedades {
@@ -13,7 +12,8 @@ public class Propiedades {
         Deque<String> operandos = new ArrayDeque<>();
         List<String> leyesAplicadas = new ArrayList<>();
         boolean seAplicoLey = false;
-
+        String expresionOriginal = String.join(" ", tokens);
+    
         for (int i = tokens.length - 1; i >= 0; i--) {
             String token = tokens[i];
             if (esOperador(token)) {
@@ -22,12 +22,14 @@ public class Propiedades {
                 }
                 String operando1 = operandos.pop();
                 String operando2 = token.equals("^") ? null : operandos.pop();
-
+    
                 switch (token) {
                     case "^":
                         operando1 = aplicarLeyDeMorgan(operando1, leyesAplicadas);
                         operando1 = aplicarLeyDobleComplemento(operando1, leyesAplicadas);
-                        seAplicoLey = true;
+                        if (!operando1.equals(tokens[i + 1])) {
+                            seAplicoLey = true;
+                        }
                         operandos.push(operando1);
                         break;
                     case "U":
@@ -52,24 +54,26 @@ public class Propiedades {
                 operandos.push(token);
             }
         }
-
+    
         if (operandos.size() != 1) {
             throw new IllegalArgumentException("Expresión inválida. Verifique la expresión de entrada.");
         }
-
-        if (!seAplicoLey) {
+    
+        String expresionSimplificada = operandos.pop();
+        System.out.println("Expresión simplificada antes de la conversión: " + expresionSimplificada);
+    
+        if (leyesAplicadas.isEmpty()) {
             Map<String, Object> resultado = new HashMap<>();
             resultado.put("mensaje", "No se puede simplificar la operación");
             return resultado;
         }
-
-        String expresionSimplificada = operandos.pop();
+    
         leyesAplicadas.add("Expresión simplificada: " + expresionSimplificada);
-
+    
         Map<String, Object> resultado = new LinkedHashMap<>();
         resultado.put("leyes", leyesAplicadas);
-        resultado.put("conjunto_simplificado", expresionSimplificada);
-
+        resultado.put("conjunto_simplificado", convertirANotacionPolaca(expresionSimplificada));
+    
         return resultado;
     }
 
@@ -83,7 +87,6 @@ public class Propiedades {
             String antes = operando.substring(0, index);
             String despues = operando.substring(index + 2);
 
-            // Encontrar el primer carácter no alfanumérico en 'despues'
             int endIndex = despues.length();
             for (int i = 0; i < despues.length(); i++) {
                 char c = despues.charAt(i);
@@ -105,99 +108,96 @@ public class Propiedades {
         if (operando1.equals(operando2)) {
             leyesAplicadas.add("Propiedades idempotentes: " + operando1 + " U " + operando1 + " = " + operando1);
             return operando1;
-        } else if (operando1.equals("^" + operando2) || operando2.equals("^" + operando1)) {
+        }
+        // Ley de complementos
+        if (operando1.equals("^" + operando2) || operando2.equals("^" + operando1)) {
             leyesAplicadas.add("Ley de complementos: " + operando1 + " U " + operando2 + " = universo");
             return "universo";
-        } else if (operando1.contains(" & ") && operando1.startsWith(operando2)) {
+        }
+        // Propiedades de absorción
+        
+        if (operando1.contains(" & ") && operando1.startsWith(operando2)) {
+            // aplicar propiedades conmutativas
+            
+
             leyesAplicadas.add("Propiedades de absorción: " + operando1 + " U " + operando2 + " = " + operando2);
             return operando2;
-        } else if (operando2.contains(" & ") && operando2.startsWith(operando1)) {
-            leyesAplicadas.add("Propiedades de absorción: " + operando1 + " U " + operando2 + " = " + operando1);
-            return operando1;
         }
 
-        // Propiedades conmutativas (solo si es necesario)
-        /* 
-        String resultadoConmutativo = operando2 + " U " + operando1;
-        if (puedeSimplificarMas(resultadoConmutativo)) {
-            leyesAplicadas.add("Propiedades conmutativas: " + operando1 + " U " + operando2 + " = " + resultadoConmutativo);
-            return resultadoConmutativo;
-        }
-        */
-        // Propiedades asociativas
-        if (operando1.contains(" U ") && operando2.contains(" U ")) {
-            leyesAplicadas.add("Propiedades asociativas: " + operando1 + " U (" + operando2 + ") = (" + operando1 + ") U " + operando2);
+        if (operando2.contains(" & ") && operando2.startsWith(operando1)) {
+            leyesAplicadas.add("Propiedades de absorción: " + operando1 + " U " + operando2 + " = " + operando1);
+            return operando1;
         }
 
         // Propiedades distributivas
         if (operando1.contains(" & ") && operando2.contains(" & ")) {
             leyesAplicadas.add("Propiedades distributivas: " + operando1 + " U (" + operando2 + ") = (" + operando1 + ") & (" + operando2 + ")");
+            return operando1 + " & " + operando2;
         }
-
+        // Propiedades asociativas
+        if (operando1.contains(" U ") && operando2.contains(" U ")) {
+            leyesAplicadas.add("Propiedades asociativas: " + operando1 + " U (" + operando2 + ") = (" + operando1 + ") U " + operando2);
+            return operando1 + " U " + operando2;
+        }
+        // Propiedades conmutativas (solo si no se puede simplificar más)
+        String resultadoConmutativa = operando2 + " U " + operando1;
+        if (operando1.compareTo(operando2) > 0 && !resultadoConmutativa.equals(operando1 + " U " + operando2)) {
+            // Verificar si la conmutativa permite una simplificación adicional
+            String simplificado = aplicarPropiedadesUnion(operando2, operando1, new ArrayList<>());
+            if (!simplificado.equals(resultadoConmutativa)) {
+                leyesAplicadas.add("Propiedades conmutativas: " + operando1 + " U " + operando2 + " = " + resultadoConmutativa);
+                return resultadoConmutativa;
+            }
+        }
         return operando1 + " U " + operando2;
     }
-
+    
     private static String aplicarPropiedadesInterseccion(String operando1, String operando2, List<String> leyesAplicadas) {
         // Propiedades idempotentes
         if (operando1.equals(operando2)) {
             leyesAplicadas.add("Propiedades idempotentes: " + operando1 + " & " + operando1 + " = " + operando1);
             return operando1;
-        } else if (operando1.equals("^" + operando2) || operando2.equals("^" + operando1)) {
+        }
+        // Ley de complementos
+        if (operando1.equals("^" + operando2) || operando2.equals("^" + operando1)) {
             leyesAplicadas.add("Ley de complementos: " + operando1 + " & " + operando2 + " = vacío");
             return "vacío";
-        } else if (operando1.contains(" U ") && operando1.startsWith(operando2)) {
+        }
+        // Propiedades de absorción
+        
+        if (operando1.contains(" U ") && operando1.startsWith(operando2)) {
             leyesAplicadas.add("Propiedades de absorción: " + operando1 + " & " + operando2 + " = " + operando2);
             return operando2;
-        } else if (operando2.contains(" U ") && operando2.startsWith(operando1)) {
-            leyesAplicadas.add("Propiedades de absorción: " + operando1 + " & " + operando2 + " = " + operando1);
-            return operando1;
         }
 
-        // Propiedades conmutativas (solo si es necesario)
-        /* 
-        String resultadoConmutativo = operando2 + " & " + operando1;
-        if (puedeSimplificarMas(resultadoConmutativo)) {
-            leyesAplicadas.add("Propiedades conmutativas: " + operando1 + " & " + operando2 + " = " + resultadoConmutativo);
-            return resultadoConmutativo;
-        }
-        */
-        // Propiedades asociativas
-        if (operando1.contains(" & ") && operando2.contains(" & ")) {
-            leyesAplicadas.add("Propiedades asociativas: " + operando1 + " & (" + operando2 + ") = (" + operando1 + ") & " + operando2);
+        if (operando2.contains(" U ") && operando2.startsWith(operando1)) {
+            leyesAplicadas.add("Propiedades de absorción: " + operando1 + " & " + operando2 + " = " + operando1);
+            return operando1;
         }
 
         // Propiedades distributivas
         if (operando1.contains(" U ") && operando2.contains(" U ")) {
             leyesAplicadas.add("Propiedades distributivas: " + operando1 + " & (" + operando2 + ") = (" + operando1 + ") U (" + operando2 + ")");
+            return operando1 + " U " + operando2;
         }
-
+        // Propiedades asociativas
+        if (operando1.contains(" & ") && operando2.contains(" & ")) {
+            leyesAplicadas.add("Propiedades asociativas: " + operando1 + " & (" + operando2 + ") = (" + operando1 + ") & " + operando2);
+            return operando1 + " & " + operando2;
+        }
+        // Propiedades conmutativas (solo si no se puede simplificar más)
+        String resultadoConmutativa = operando2 + " & " + operando1;
+        if (operando1.compareTo(operando2) > 0 && !resultadoConmutativa.equals(operando1 + " & " + operando2)) {
+            // Verificar si la conmutativa permite una simplificación adicional
+            String simplificado = aplicarPropiedadesInterseccion(operando2, operando1, new ArrayList<>());
+            if (!simplificado.equals(resultadoConmutativa)) {
+                leyesAplicadas.add("Propiedades conmutativas: " + operando1 + " & " + operando2 + " = " + resultadoConmutativa);
+                return resultadoConmutativa;
+            }
+        }
         return operando1 + " & " + operando2;
     }
-    /* 
-    private static boolean puedeSimplificarMas(String expresion) {
-        // Aplicar la propiedad conmutativa a la expresión
-        String[] partes = expresion.split(" ");
-        if (partes.length == 3 && (partes[1].equals("U") || partes[1].equals("&"))) {
-            String operando1 = partes[0];
-            String operador = partes[1];
-            String operando2 = partes[2];
-            String resultadoConmutativo = operando2 + " " + operador + " " + operando1;
-    
-            // Verificar si la nueva expresión simplificada permite aplicar alguna otra propiedad de simplificación
-            List<String> leyesAplicadas = new ArrayList<>();
-            if (operador.equals("U")) {
-                aplicarPropiedadesUnion(operando2, operando1, leyesAplicadas);
-            } else if (operador.equals("&")) {
-                aplicarPropiedadesInterseccion(operando2, operando1, leyesAplicadas);
-            }
-    
-            // Retornar true si se puede simplificar más, de lo contrario, retornar false
-            return !leyesAplicadas.isEmpty();
-        }
-    
-        return false;
-    }
-    */
+
     private static String aplicarLeyDeMorgan(String operando, List<String> leyesAplicadas) {
         if (operando.contains("U")) {
             String[] partes = operando.split("U");
@@ -213,6 +213,53 @@ public class Propiedades {
             }
         }
         return "^" + operando;
+    }
+
+    private static String convertirANotacionPolaca(String expresion) {
+        Deque<String> stack = new ArrayDeque<>();
+        StringBuilder resultado = new StringBuilder();
+        String[] tokens = expresion.split(" ");
+        
+        for (String token : tokens) {
+            if (esOperador(token)) {
+                while (!stack.isEmpty() && precedencia(stack.peek()) >= precedencia(token)) {
+                    resultado.append(stack.pop()).append(" ");
+                }
+                stack.push(token);
+            } else {
+                resultado.append(token).append(" ");
+            }
+        }
+        
+        while (!stack.isEmpty()) {
+            resultado.insert(0, stack.pop() + " ");
+        }
+        
+        return resultado.toString().trim();
+    }
+    
+    private static String invertirOrden(String expresion) {
+        String[] tokens = expresion.split(" ");
+        StringBuilder resultado = new StringBuilder();
+        for (int i = tokens.length - 1; i >= 0; i--) {
+            resultado.append(tokens[i]).append(" ");
+        }
+        return resultado.toString().trim();
+    }
+
+    private static int precedencia(String operador) {
+        switch (operador) {
+            case "^":
+                return 3;
+            case "U":
+                return 2;
+            case "&":
+                return 2;
+            case "-":
+                return 1;
+            default:
+                return 0;
+        }
     }
 
     public static void generarJsonSalida(Map<String, Map<String, Object>> resultados) {
@@ -242,7 +289,6 @@ public class Propiedades {
         try {
             File archivo = new File(rutaArchivo);
             if (archivo.exists()) {
-                // Abrir el archivo con el Bloc de notas
                 ProcessBuilder pb = new ProcessBuilder("notepad.exe", archivo.getAbsolutePath());
                 pb.start();
             } else {
@@ -252,6 +298,4 @@ public class Propiedades {
             e.printStackTrace();
         }
     }
-
-
 }

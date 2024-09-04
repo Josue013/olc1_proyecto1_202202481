@@ -1,4 +1,17 @@
 {
-    "operacion1": {"mensaje": "No se puede simplificar la operación"},
-    "operacion2": {"mensaje": "No se puede simplificar la operación"}
+    "op2": {
+        "conjunto_simplificado": "- cA cB",
+        "leyes": [
+            "Propiedades de absorción: cA & cB U cA = cA",
+            "Expresión simplificada: cA - cB"
+        ]
+    },
+    "op1": {
+        "conjunto_simplificado": "U cA cB",
+        "leyes": [
+            "Ley del doble complemento: ^^cA = cA",
+            "Propiedades idempotentes: cA U cA = cA",
+            "Expresión simplificada: cA U cB"
+        ]
+    }
 }

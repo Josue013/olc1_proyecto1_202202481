@@ -108,6 +108,8 @@ operacionComb ::= operadoresLista:a listaComplemento:b {:RESULT=a; RESULT.addAll
                  | listaComplemento:a operadoresLista:b listaComplemento:c {:RESULT=a; RESULT.addAll(b); RESULT.addAll(c);:}
                  | listaComplemento:a operadoresLista:b listaComplemento:c operadoresLista:d {:RESULT=a; RESULT.addAll(b); RESULT.addAll(c); RESULT.addAll(d);:}
                  | operadoresLista:a listaComplemento:b operadoresLista:c listaComplemento:d {:RESULT=a; RESULT.addAll(b); RESULT.addAll(c); RESULT.addAll(d);:}
+                 | listaComplemento:a operadoresLista:b listaComplemento:c operadoresLista:d listaComplemento:e {:RESULT=a; RESULT.addAll(b); RESULT.addAll(c); RESULT.addAll(d); RESULT.addAll(e);:}
+                 | operadoresLista:a listaComplemento:b operadoresLista:c listaComplemento:d operadoresLista:e {:RESULT=a; RESULT.addAll(b); RESULT.addAll(c); RESULT.addAll(d); RESULT.addAll(e);:}
                  | operadoresLista:a                    {:RESULT=a;:}
                  ;
 

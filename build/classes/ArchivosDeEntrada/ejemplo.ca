@@ -1,0 +1,40 @@
+{
+    CONJ: naturales -> 0~9;
+    CONJ: pares -> 0,2,4,6,8;
+    CONJ: impares -> 1,3,5,7,9;
+    OPERA: op1 -> ^ & ^{pares} ^{impares}; # ^(^ pares & ^ impares);
+    OPERA: op2 -> ^ U & ^{pares} ^{pares} & ^{naturales} ^{naturales} ; # ^((^ pares & ^ pares )  U (^ naturales & ^ naturales ) ) 
+    OPERA: op3 -> ^ ^ U & {impares} {naturales} U {impares} {impares} ; # ^^((impares & naturales) U (impares U impares))
+
+    EVALUAR ({1,2,3},op1);
+    EVALUAR ({0,9,8},op2);
+    EVALUAR ({2,3,0,8,2,0,2,4},op3);
+}
+<!
+# Salida en consola 
+===============
+Evaluar: op1
+===============
+1 -> exitoso
+2 -> exitoso
+3 -> exitoso
+
+===============
+Evaluar: op2
+===============
+0 -> exitoso
+9 -> fallo
+8 -> exitoso
+
+===============
+Evaluar: op3
+===============
+2 -> fallo
+3 -> exitoso 
+0 -> fallo
+8 -> fallo
+2 -> fallo
+0 -> fallo
+2 -> fallo
+4 -> fallo
+!>

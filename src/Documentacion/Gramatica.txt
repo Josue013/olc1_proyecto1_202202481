@@ -1,0 +1,72 @@
+<programa> ::= LLAVE_IZQ <sentencias> LLAVE_DER
+              | error LLAVE_IZQ <sentencias> LLAVE_DER
+              | LLAVE_IZQ <sentencias> LLAVE_DER error
+              | error LLAVE_IZQ <sentencias> LLAVE_DER error
+              ;
+
+<sentencias> ::= <sentencias> <sentencia>
+               | <sentencia>
+               ;
+
+<sentencia> ::= <conjunto> PUNTO_Y_COMA
+              | <operacion> PUNTO_Y_COMA
+              | <evaluacion> PUNTO_Y_COMA
+              | error PUNTO_Y_COMA
+              ;
+
+<conjunto> ::= CONJ DOS_PUNTOS ID FLECHA <definicion>
+             ;
+
+<definicion> ::= INTERV
+               | LISTA
+               ;
+
+<operacion> ::= OPERA DOS_PUNTOS ID FLECHA <OperacionFinal>
+              ;
+
+<OperacionFinal> ::= <OperacionFinal> <operadoresyconjuntos>
+                   | <operadoresyconjuntos>
+                   ;
+
+<operadoresyconjuntos> ::= <operacionDef>
+                         | <operacionComplemento>
+                         ;
+
+<operacionDef> ::= <operacionComb> <conjuntos>
+                 ;
+
+<operacionComb> ::= <operadoresLista> <listaComplemento>
+                  | <listaComplemento> <operadoresLista>
+                  | <operadoresLista> <listaComplemento> <operadoresLista>
+                  | <listaComplemento> <operadoresLista> <listaComplemento>
+                  | <listaComplemento> <operadoresLista> <listaComplemento> <operadoresLista>
+                  | <operadoresLista> <listaComplemento> <operadoresLista> <listaComplemento>
+                  | <listaComplemento> <operadoresLista> <listaComplemento> <operadoresLista> <listaComplemento>
+                  | <operadoresLista> <listaComplemento> <operadoresLista> <listaComplemento> <operadoresLista>
+                  | <listaComplemento> <operadoresLista> <listaComplemento> <operadoresLista> <listaComplemento> <operadoresLista>
+                  | <operadoresLista> <listaComplemento> <operadoresLista> <listaComplemento> <operadoresLista> <listaComplemento>
+                  | <operadoresLista>
+                  ;
+
+<operadoresLista> ::= <operadoresLista> <operador>
+                    | <operador>
+                    ;
+
+<operacionComplemento> ::= <listaComplemento> LISTA_CONJ
+                         ;
+
+<listaComplemento> ::= <listaComplemento> COMPLEMENTO
+                     | COMPLEMENTO
+                     ;
+
+<operador> ::= UNION
+             | INTERSECCION
+             | DIFERENCIA
+             ;
+
+<conjuntos> ::= <conjuntos> LISTA_CONJ
+              | LISTA_CONJ
+              ;
+
+<evaluacion> ::= EVALUAR PAREN_IZQ LISTA_ELEMENTOS COMA ID PAREN_DER
+               ;

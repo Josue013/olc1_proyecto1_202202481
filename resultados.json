@@ -1,17 +1,31 @@
 {
     "op2": {
-        "conjunto_simplificado": "- cA cB",
+        "conjunto_simplificado": "& pares naturales",
         "leyes": [
-            "Propiedades de absorción: cA & cB U cA = cA",
-            "Expresión simplificada: cA - cB"
+            "Propiedades idempotentes: ^naturales & ^naturales = ^naturales",
+            "Propiedades idempotentes: ^pares & ^pares = ^pares",
+            "Ley de De Morgan: ^(^pares U ^naturales) = ^^pares & ^^naturales",
+            "Ley del doble complemento: ^^pares = pares",
+            "Ley del doble complemento: ^^naturales = naturales",
+            "Expresión simplificada: pares & naturales"
         ]
     },
     "op1": {
-        "conjunto_simplificado": "U cA cB",
+        "conjunto_simplificado": "U pares impares",
         "leyes": [
-            "Ley del doble complemento: ^^cA = cA",
-            "Propiedades idempotentes: cA U cA = cA",
-            "Expresión simplificada: cA U cB"
+            "Ley de De Morgan: ^(^pares & ^impares) = ^^pares U ^^impares",
+            "Ley del doble complemento: ^^pares = pares",
+            "Ley del doble complemento: ^^impares = impares",
+            "Expresión simplificada: pares U impares"
+        ]
+    },
+    "op3": {
+        "conjunto_simplificado": "impares",
+        "leyes": [
+            "Propiedades idempotentes: impares U impares = impares",
+            "Propiedades de absorción: impares & naturales U impares = impares",
+            "Ley del doble complemento: ^^impares = impares",
+            "Expresión simplificada: impares"
         ]
     }
 }

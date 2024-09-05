@@ -114,21 +114,40 @@ public class Propiedades {
             leyesAplicadas.add("Ley de complementos: " + operando1 + " U " + operando2 + " = universo");
             return "universo";
         }
-        // Propiedades de absorción
-        
-        if (operando1.contains(" & ") && operando1.startsWith(operando2)) {
-            // aplicar propiedades conmutativas
-            
-
-            leyesAplicadas.add("Propiedades de absorción: " + operando1 + " U " + operando2 + " = " + operando2);
-            return operando2;
+    
+        // Propiedades de absorción (aplicar conmutativas si es necesario)
+        if ((operando1.contains(" & ") && operando1.startsWith(operando2)) || (operando2.contains(" & ") && operando2.endsWith(operando1))) {
+            if (operando1.compareTo(operando2) > 0) {
+                String temp = operando1;
+                operando1 = operando2;
+                operando2 = temp;
+                leyesAplicadas.add("Propiedades conmutativas: " + operando2 + " U " + operando1 + " = " + operando1 + " U " + operando2);
+            }
+            // caso 1 (A & B) U A = A
+            if (operando1.contains(" & ") && operando1.startsWith(operando2)) {
+                leyesAplicadas.add("Propiedades de absorción: (" + operando1 + ") U (" + operando2 + ") = " + operando2);
+                return operando2;
+            }
+            // caso 4 B U (A & B) = B
+            if (operando2.contains(" & ") && operando2.endsWith(operando1)) {
+                leyesAplicadas.add("Propiedades de absorción: (" + operando1 + ") U (" + operando2 + ") = " + operando1);
+                return operando1;
+            }
         }
 
+        // caso 2 A U (A & B) = A
         if (operando2.contains(" & ") && operando2.startsWith(operando1)) {
-            leyesAplicadas.add("Propiedades de absorción: " + operando1 + " U " + operando2 + " = " + operando1);
+            leyesAplicadas.add("Propiedades de absorción: (" + operando1 + ") U (" + operando2 + ") = " + operando1);
             return operando1;
         }
 
+        // caso 3 (A & B) U B = B
+        if (operando1.contains(" & ") && operando1.endsWith(operando2)) {
+            leyesAplicadas.add("Propiedades de absorción: (" + operando1 + ") U (" + operando2 + ") = " + operando2);
+            return operando2;
+        }
+        
+    
         // Propiedades distributivas
         if (operando1.contains(" & ") && operando2.contains(" & ")) {
             leyesAplicadas.add("Propiedades distributivas: " + operando1 + " U (" + operando2 + ") = (" + operando1 + ") & (" + operando2 + ")");
@@ -138,16 +157,6 @@ public class Propiedades {
         if (operando1.contains(" U ") && operando2.contains(" U ")) {
             leyesAplicadas.add("Propiedades asociativas: " + operando1 + " U (" + operando2 + ") = (" + operando1 + ") U " + operando2);
             return operando1 + " U " + operando2;
-        }
-        // Propiedades conmutativas (solo si no se puede simplificar más)
-        String resultadoConmutativa = operando2 + " U " + operando1;
-        if (operando1.compareTo(operando2) > 0 && !resultadoConmutativa.equals(operando1 + " U " + operando2)) {
-            // Verificar si la conmutativa permite una simplificación adicional
-            String simplificado = aplicarPropiedadesUnion(operando2, operando1, new ArrayList<>());
-            if (!simplificado.equals(resultadoConmutativa)) {
-                leyesAplicadas.add("Propiedades conmutativas: " + operando1 + " U " + operando2 + " = " + resultadoConmutativa);
-                return resultadoConmutativa;
-            }
         }
         return operando1 + " U " + operando2;
     }
@@ -163,17 +172,39 @@ public class Propiedades {
             leyesAplicadas.add("Ley de complementos: " + operando1 + " & " + operando2 + " = vacío");
             return "vacío";
         }
-        // Propiedades de absorción
-        
-        if (operando1.contains(" U ") && operando1.startsWith(operando2)) {
-            leyesAplicadas.add("Propiedades de absorción: " + operando1 + " & " + operando2 + " = " + operando2);
-            return operando2;
+    
+        // Propiedades de absorción (aplicar conmutativas si es necesario)
+        if ((operando1.contains(" U ") && operando1.startsWith(operando2)) || (operando2.contains(" U ") && operando2.endsWith(operando1))) {
+            if (operando1.compareTo(operando2) > 0) {
+                String temp = operando1;
+                operando1 = operando2;
+                operando2 = temp;
+                leyesAplicadas.add("Propiedades conmutativas: " + operando2 + " & " + operando1 + " = " + operando1 + " & " + operando2);
+            }
+            // caso 1 (A U B) & A = A
+            if (operando1.contains(" U ") && operando1.startsWith(operando2)) {
+                leyesAplicadas.add("Propiedades de absorción: " + operando1 + " & " + operando2 + " = " + operando2);
+                return operando2;
+            }
+            // caso 4 B & (A U B) = B
+            if (operando2.contains(" U ") && operando2.endsWith(operando1)) {
+                leyesAplicadas.add("Propiedades de absorción: " + operando1 + " & " + operando2 + " = " + operando1);
+                return operando1;
+            }
         }
 
+        // caso 2 A & (A U B) = A
         if (operando2.contains(" U ") && operando2.startsWith(operando1)) {
             leyesAplicadas.add("Propiedades de absorción: " + operando1 + " & " + operando2 + " = " + operando1);
             return operando1;
         }
+
+        // caso 3 (A U B) & B = B
+        if (operando1.contains(" U ") && operando1.endsWith(operando2)) {
+            leyesAplicadas.add("Propiedades de absorción: " + operando1 + " & " + operando2 + " = " + operando2);
+            return operando2;
+        }
+        
 
         // Propiedades distributivas
         if (operando1.contains(" U ") && operando2.contains(" U ")) {
@@ -184,16 +215,6 @@ public class Propiedades {
         if (operando1.contains(" & ") && operando2.contains(" & ")) {
             leyesAplicadas.add("Propiedades asociativas: " + operando1 + " & (" + operando2 + ") = (" + operando1 + ") & " + operando2);
             return operando1 + " & " + operando2;
-        }
-        // Propiedades conmutativas (solo si no se puede simplificar más)
-        String resultadoConmutativa = operando2 + " & " + operando1;
-        if (operando1.compareTo(operando2) > 0 && !resultadoConmutativa.equals(operando1 + " & " + operando2)) {
-            // Verificar si la conmutativa permite una simplificación adicional
-            String simplificado = aplicarPropiedadesInterseccion(operando2, operando1, new ArrayList<>());
-            if (!simplificado.equals(resultadoConmutativa)) {
-                leyesAplicadas.add("Propiedades conmutativas: " + operando1 + " & " + operando2 + " = " + resultadoConmutativa);
-                return resultadoConmutativa;
-            }
         }
         return operando1 + " & " + operando2;
     }

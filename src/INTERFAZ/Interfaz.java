@@ -430,6 +430,7 @@ public class Interfaz extends javax.swing.JFrame {
         Util.Utilidades.eliminarTodosLosConjuntos();
         Util.Utilidades.eliminarTodasLasOperaciones();
         Util.Utilidades.eliminarTodasLasEvaluaciones();
+        
         Util.Utilidades.borrarErrores();
         Util.Utilidades.borrarTokens();
 

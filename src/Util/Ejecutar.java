@@ -46,7 +46,7 @@ public class Ejecutar {
     }
 
     public static String SalidaConsola() {
-
+        
         StringBuilder tabla = new StringBuilder();
 
         for (Evaluacion eval : Util.Utilidades.listaEvaluaciones) {
@@ -66,9 +66,9 @@ public class Ejecutar {
             } else {
                 tabla.append("No se encontró la operacion o esta tenia conjuntos que no existen\n");
             }
-
-
+            
         }
+        resultadosOperaciones.clear();
         return tabla.toString();
     }
 
